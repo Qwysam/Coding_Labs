@@ -362,11 +362,6 @@ namespace Practise
                                     Console.WriteLine(list[index_first] != list[index_second]);
                                     break;
                                 }
-                                if (_operator == "!=")
-                                {
-                                    Console.WriteLine(list[index_first] != list[index_second]);
-                                    break;
-                                }
                                 if (_operator == "=")
                                 {
                                     Console.WriteLine(list[index_first] == list[index_second]);
