@@ -50,6 +50,11 @@ namespace Practise
         {
             return collection.Contains(element);
         }
+        //method to sort the collection
+        public void Sort()
+        {
+            collection.Sort();
+        }
 
     } 
     
