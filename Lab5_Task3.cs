@@ -54,6 +54,11 @@ namespace Practise
         {
             return collection.IndexOf(element);
         }
+        //method to sort the collection
+        public void Sort()
+        {
+            collection.Sort();
+        }
 
     } 
 
