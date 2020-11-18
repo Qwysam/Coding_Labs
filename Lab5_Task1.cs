@@ -50,6 +50,11 @@ namespace Practise
         {
             return collection.Contains(element);
         }
+        //return index of first occurence of element
+        public int IndexOf(T element)
+        {
+            return collection.IndexOf(element);
+        }
         //method to sort the collection
         public void Sort()
         {
