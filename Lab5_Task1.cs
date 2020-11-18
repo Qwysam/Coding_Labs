@@ -25,10 +25,10 @@ namespace Practise
             collection = new List<T>();
         }
         //constructor with one element as parameter
-        public CollectionType(T element)
+        //constructor that sets capacity
+        public CollectionType(int capacity)
         {
-            collection = new List<T>();
-            collection.Add(element);
+            collection = new List<T>(capacity);
         }
         //constructor with array as parameter
         public CollectionType(T[] array)
@@ -49,6 +49,16 @@ namespace Practise
         public bool Contains(T element)
         {
             return collection.Contains(element);
+        }
+        //return index of first occurence of element
+        public int IndexOf(T element)
+        {
+            return collection.IndexOf(element);
+        }
+        //method to sort the collection
+        public void Sort()
+        {
+            collection.Sort();
         }
 
     } 
