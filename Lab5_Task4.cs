@@ -153,12 +153,23 @@ namespace Practise
     }
 
     //Child class
-    public class Book : Printed_Edition
+    public class Book : Printed_Edition, IComparable
     {
         //Overriden function to get information
         public override string GetInfo()
         {
             return base.GetInfo();
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            Book otherBook = obj as Book;
+            if (otherBook != null)
+                return base.CompareTo(otherBook);
+            else
+                throw new ArgumentException("Object is not a Book");
         }
 
         //Default constructor
@@ -281,12 +292,12 @@ namespace Practise
 
     class Program
     {
-        void RandomData(int amount, ArrayList alis, List<Printed_Edition> list, Printed_Edition[] arr, CollectionType<Printed_Edition> collection)
+        void RandomData(int amount, ArrayList alis, List<Book> list, Printed_Edition[] arr, CollectionType<Book> collection)
         {
             Random r = new Random();
             for(int i = 0;i< amount; i++)
             {
-                Printed_Edition p = new Book();
+                Book p = new Book();
                 p.Price = r.Next(0, Int32.MaxValue) / 100;
                 alis.Add(p);
                 list.Add(new Book());
@@ -310,9 +321,9 @@ namespace Practise
             }
             Stopwatch sw = new Stopwatch();
             ArrayList alis = new ArrayList(amount);
-            List<Printed_Edition> list = new List<Printed_Edition>(amount);
-            Printed_Edition[] arr = new Printed_Edition[amount];
-            CollectionType<Printed_Edition> collection = new CollectionType<Printed_Edition>(amount);
+            List<Book> list = new List<Book>(amount);
+            Book[] arr = new Book[amount];
+            CollectionType<Book> collection = new CollectionType<Book>(amount);
             p.RandomData(amount, alis, list, arr, collection);
             sw.Start();
             alis.Sort();
@@ -337,7 +348,6 @@ namespace Practise
             sw.Stop();
             duration = sw.Elapsed;
             Console.WriteLine("CollectionType : {0}", duration.ToString());
-            Console.WriteLine($"Price: {collection[4].Price}");
         }
     }
 }
