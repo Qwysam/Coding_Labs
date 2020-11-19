@@ -279,20 +279,31 @@ namespace Practise
 
     }
 
-
-
     class Program
     {
-        void RandomData()
+        void RandomData(int amount, ArrayList alis, List<Printed_Edition> list, Printed_Edition[] arr, CollectionType<Printed_Edition> collection)
         {
-
+            Random r = new Random();
+            for(int i = 0;i< amount; i++)
+            {
+                Printed_Edition p = new Book();
+                p.Price = r.Next(0, Int32.MaxValue) / 100;
+                alis.Add(p);
+                list.Add(new Book());
+                arr[i] = new Book();
+                collection.Add(new Book());
+                list[i].Price = r.Next(0, Int32.MaxValue) / 100;
+                arr[i].Price = r.Next(0, Int32.MaxValue) / 100;
+                collection[i].Price = r.Next(0, Int32.MaxValue) / 100;
+            }
         }
         static void Main(string[] args)
         {
+            Program p = new Program();
             int amount;
+            Console.WriteLine("Input number of elements: ");
             for (; ; )
             {
-                Console.WriteLine("Input number of elements: ");
                 string input = Console.ReadLine();
                 if (int.TryParse(input, out amount))
                     break;
@@ -302,29 +313,31 @@ namespace Practise
             List<Printed_Edition> list = new List<Printed_Edition>(amount);
             Printed_Edition[] arr = new Printed_Edition[amount];
             CollectionType<Printed_Edition> collection = new CollectionType<Printed_Edition>(amount);
+            p.RandomData(amount, alis, list, arr, collection);
             sw.Start();
             alis.Sort();
             sw.Stop();
             TimeSpan duration = sw.Elapsed;
-            Console.WriteLine("ArrayList : ", duration);
+            Console.WriteLine("ArrayList : {0}", duration.ToString());
             sw.Reset();
             sw.Start();
             list.Sort();
             sw.Stop();
             duration = sw.Elapsed;
-            Console.WriteLine("List : ", duration);
+            Console.WriteLine("List : {0}", duration.ToString());
             sw.Reset();
             sw.Start();
             Array.Sort(arr);
             sw.Stop();
             duration = sw.Elapsed;
-            Console.WriteLine("Array : ", duration);
+            Console.WriteLine("Array : {0}", duration.ToString());
             sw.Reset();
             sw.Start();
             collection.Sort();
             sw.Stop();
             duration = sw.Elapsed;
-            Console.WriteLine("CollectionType : ", duration);
+            Console.WriteLine("CollectionType : {0}", duration.ToString());
+            Console.WriteLine($"Price: {collection[4].Price}");
         }
     }
 }
