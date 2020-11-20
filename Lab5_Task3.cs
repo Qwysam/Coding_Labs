@@ -60,17 +60,17 @@ namespace Practise
             collection.Sort();
         }
 
-    } 
+    }
 
 
 
     class Program
     {
         //returns number of collections that contain two elements
-        int TwoElemCollections(CollectionType<int>[] arr)
+        static int TwoElemCollections(CollectionType<object>[] arr)
         {
             int count = 0;
-            foreach(CollectionType<int> collection in arr)
+            foreach (CollectionType<object> collection in arr)
             {
                 if (collection.Count == 2)
                     count++;
@@ -78,11 +78,11 @@ namespace Practise
             return count;
         }
         //res[0] = IndexOfMax  res[1] = IndexOfMin
-        int[] MaxAndMin(CollectionType<int>[] arr)
+        static int[] MaxAndMin(CollectionType<object>[] arr)
         {
             int[] res = new int[2];
             int tmp = 0;
-            for(int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
                 if (arr[i].Count > tmp)
                 {
@@ -104,7 +104,17 @@ namespace Practise
 
         static void Main(string[] args)
         {
-            CollectionType<int>[]array = new CollectionType<int>[100];
+            CollectionType<object>[] array = new CollectionType<object>[100];
+            for (int i = 0; i < 100; i++)
+                array[i] = new CollectionType<object>();
+            Random r = new Random();
+            Random e = new Random();
+            array[0].Add(r);
+            array[0].Add(e);
+            Console.WriteLine($"There are {TwoElemCollections(array)} collections with 2 elements");
+            int[] min_max = MaxAndMin(array);
+            Console.WriteLine($"Index of biggest collection : {min_max[0]}");
+            Console.WriteLine($"Index of smallest collection : {min_max[1]}");
         }
     }
 }
