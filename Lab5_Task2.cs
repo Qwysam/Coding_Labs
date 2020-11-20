@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Practise
 {
-    public abstract class Printed_Edition : IComparable<Printed_Edition>
+        public abstract class Printed_Edition : IComparable<Printed_Edition>
     {
         //Stores the name of object
         private string name;
@@ -151,12 +151,23 @@ namespace Practise
     }
 
     //Child class
-    public class Book : Printed_Edition
+    public class Book : Printed_Edition, IComparable
     {
         //Overriden function to get information
         public override string GetInfo()
         {
             return base.GetInfo();
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            Book otherBook = obj as Book;
+            if (otherBook != null)
+                return base.CompareTo(otherBook);
+            else
+                throw new ArgumentException("Object is not a Book");
         }
 
         //Default constructor
@@ -185,12 +196,23 @@ namespace Practise
     }
 
     //Child class
-    public class Magazine : Printed_Edition
+    public class Magazine : Printed_Edition, IComparable
     {
         //Overriden function to get information
         public override string GetInfo()
         {
             return base.GetInfo();
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            Book otherBook = obj as Book;
+            if (otherBook != null)
+                return base.CompareTo(otherBook);
+            else
+                throw new ArgumentException("Object is not a Book");
         }
 
         //Default constructor
