@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
-using System.Runtime.Serialization;
+using System.Xml;
 
 namespace Fun
 {
-    class Rate: ISerializable
+
+    public class Rate
     {
         public string Currency { get; set; }
         public float Value { get; set; }
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            // Use the AddValue method to specify serialized values.
-            info.AddValue("Currency", Currency, typeof(string));
-            info.AddValue("Value", Value, typeof(float));
-        }
         public Rate()
         {
 
@@ -26,16 +21,26 @@ namespace Fun
             Currency = currency_name;
             Value = value_var;
         }
-
-        public Rate(SerializationInfo info, StreamingContext context)
-        {
-            // Reset the property value using the GetValue method.
-            Currency = (string)info.GetValue(Currency, typeof(string));
-            Value = (float)info.GetValue(Currency, typeof(float));
-        }
     }
 
-    class CurrencyConverter
+    public class Program
+    {
+        [XmlRoot("Rate_List")]
+        public class RateList
+        {
+            public RateList()
+            {
+                Items = new List<Rate>();
+            }
+            [XmlElement("Rate")]
+            public List<Rate> Items { get; set; }
+            public void Add(Rate obj)
+            {
+                Items.Add(obj);
+            }
+        }
+
+        class CurrencyConverter
     {
         /// <summary>
         /// Gets all available currency tags
@@ -146,17 +151,16 @@ namespace Fun
         }
     }
 
-    class Program
-    {
         static void Main(string[] args)
         {
-            List<Rate> rates = new List<Rate>();
+            XmlSerializer ser = new XmlSerializer(typeof(RateList));
+            RateList rates = new RateList();
             string fromCurrency = "EUR";
             string toCurrency = "USD";
             int amount = 1;
             if (!File.Exists("save.xml"))
             {
-
+                Stream fs = new FileStream("save.xml", FileMode.Create);
                 // Get all available currency tags
                 string[] availableCurrency = CurrencyConverter.GetCurrencyTags();
 
@@ -168,12 +172,28 @@ namespace Fun
                     rates.Add(tmp);
                 }
 
-                foreach (Rate elem in rates)
+                foreach (Rate elem in rates.Items)
                 {
                     Console.WriteLine($"{elem.Currency} : {elem.Value}");
                 }
-                
+                ser.Serialize(fs, rates);
                 Console.WriteLine("\nFile 'save.xml' created");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("File exists");
+                using (var reader = new StreamReader("save.xml"))
+                {
+                    XmlSerializer deserializer = new XmlSerializer(typeof(List<Rate>),
+                        new XmlRootAttribute("Rate_List"));
+                    rates.Items = (List<Rate>)deserializer.Deserialize(reader);
+                }
+                Console.WriteLine("Reading:");
+                foreach (Rate elem in rates.Items)
+                {
+                    Console.WriteLine($"{elem.Currency} : {elem.Value}");
+                }
             }
             //Print currency tags comma seperated
             //Console.WriteLine("Available Currencies");
