@@ -16,8 +16,7 @@ namespace Fun
         {
             //Vehicle Registration Number
             Regex VRN = new Regex("^[ABCEHIKMOPTX]{2}(?!0{4})[0-9]{4}[ABCEHIKMOPTX]{2}$");
-            Match match = VRN.Match(str);
-            return match.Success;
+            return VRN.IsMatch(str);
         }
 
         static void Main(string[] args)
